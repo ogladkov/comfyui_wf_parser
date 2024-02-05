@@ -1,0 +1,15 @@
+{
+  "LoadImage": ["image", "type"],
+  "SAMLoader": ["model_name", "device_mode"],
+  "GroundingDinoModelLoader (segment anything)": ["model_name"],
+  "GroundingDinoSAMSegment (segment anything)": ["prompt", "threshold"],
+  "JWImageResize": ["height", "width", "interpolation_mode"],
+  "Get Image Size": [],
+  "VAEEncode": [],
+  "VAEDecode": [],
+  "SetLatentNoiseMask": [],
+  "CLIPTextEncodeSDXL": ["width", "height", "crop_w", "crop_h", "target_width", "target_height", "text_g", "text_l"],
+  "CheckpointLoaderSimple": ["ckpt_name"],
+  "KSampler": ["seed", "control_after_generate", "steps", "cfg", "sampler_name", "scheduler", "denoise"],
+  "PreviewImage": []
+}
