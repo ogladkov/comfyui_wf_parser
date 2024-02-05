@@ -52,6 +52,8 @@ class Node:
 
                 inputs[name] = [str(in_node_id), int(in_slot_id)]
 
+        return inputs
+
 
 class WorkFlow:
 
@@ -60,14 +62,15 @@ class WorkFlow:
         self.json_path = json_path
         self.wf = self.read_workflow(json_path)
         self.skip_nodes = ['PreviewImage']  # a list of nodes that won't be used
-        self.parsed_nodes = self.parse_nodes()
+        self.parsed_nodes = self.get_nodes()
 
     def read_workflow(self, json_path):
 
         with open(json_path, 'r') as j:
             return json.load(j)
 
-    def parse_nodes(self):
+    def get_nodes(self):
+        ready_nodes = []
 
         for node in self.wf['nodes']:
             parsed_node = Node(wf=self.wf, id=node['id'])
@@ -76,11 +79,11 @@ class WorkFlow:
             if parsed_node.class_type in self.skip_nodes:
                 continue
 
-            self.parsed_nodes.append(parsed_node)
+            ready_nodes.append(parsed_node)
 
-        return parsed_node
+        return ready_nodes
 
-    def generate_prompt(self, save_path=None):
+    def generate_prompt(self, save_path: str = None):
         # Generates the prompt for ComfyUI API
         prompt = dict()
 
@@ -92,8 +95,10 @@ class WorkFlow:
 
         # Save to a file if save_path is provided
         if save_path:
+            print(f'Saved at {save_path}')
 
             with open(save_path, 'w') as jdown:
                 json.dump(prompt, jdown, sort_keys=True, ensure_ascii=False, indent=4)
 
+        print(prompt)
         return prompt
